@@ -1,5 +1,4 @@
 function Drawer({onClose, items = []}) {
-    console.log(items);
     return (
         <div className="overlay">
             <div className="drawer">
@@ -12,8 +11,8 @@ function Drawer({onClose, items = []}) {
                 />
             </h2>
             <div className="items">
-                {items.map((obj)=>(                
-                    <div className="cartItem d-flex align-center mb-20">
+                {items.map((obj, index)=>(                
+                    <div className="cartItem d-flex align-center mb-20" key={index}>
                         <img className="mr-20" width={70} src={obj.url} alt="Sneakers"/>
                         <div className="mr-20">
                             <p className="mb-5">{obj.title}</p>
