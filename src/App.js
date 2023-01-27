@@ -11,16 +11,30 @@ function App() {
   const [sneakers, setSneakers] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
+  const [favorites, setFavorites] = React.useState('');
 
   React.useEffect(()=>{
     axios.get('https://63cf94521098240437820504.mockapi.io/items').then((res)=>{
       setSneakers(res.data)
+    });
+    axios.get('https://63cf94521098240437820504.mockapi.io/cart').then((res)=>{
+      setCartItems(res.data)
     })
   }, []);
 
   const onAddToCart = (obj) => {
-    axios.post('https://63cf94521098240437820504.mockapi.io/cart', obj);
-    setCartItems(prev => [...prev, obj])
+    axios.post('https://63cf94521098240437820504.mockapi.io/cart', obj)
+    .then((res)=>setCartItems(prev => [...prev, obj]))
+  }
+
+  const onAddToFavorites = (obj) => {
+    axios.post('https://63cf94521098240437820504.mockapi.io/favorites', obj)
+    .then((res)=>setFavorites(prev => [...prev, obj]))
+  }
+
+  const onRemoveItem = (id) => {
+    axios.delete(`https://63cf94521098240437820504.mockapi.io/cart/${id}`);
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
   }
 
   const onChangeSearchInput = (e) => {
@@ -29,7 +43,7 @@ function App() {
 
   return (
     <div className="wrapper clear">
-      {cartOpened && <Drawer items={cartItems} onClose={()=>setCartOpener(!cartOpened)}/>}    
+      {cartOpened && <Drawer items={cartItems} onClose={()=>setCartOpener(!cartOpened)} onRemove={onRemoveItem}/>}    
       <Header onClickCart={()=>setCartOpener(!cartOpened)}/>
       <div className="content p-40">
         <div className="d-flex align-center mb-40 justify-between">
@@ -47,7 +61,9 @@ function App() {
             url = {item.imageUrl}
             price = {item.price}
             onClickPlus = {(obj) => onAddToCart(obj)}
-            onClickLike = {() => console.log('Нажали лайк')}
+            onClickLike = {(obj) => onAddToFavorites(obj)}
+            onRemoveItem = {(id) => onRemoveItem(id)}
+            id = {index}
             />
         ))}
         </div>
