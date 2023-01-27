@@ -10,14 +10,15 @@ function Card({title, url, price, onClickLike, onClickPlus, id}) {
     setChecked(!checked)
   }
 
-  const onLikeClick = () => {
+  const onLike = () => {
     setIsLiked(!isLiked);
+    onClickLike({title, url, price, id})
   }
 
     return (
         <div className={styles.card}>
           <div className="favorite">
-            <img src={isLiked ? '/img/like-btn-on.svg' : '/img/like-btn-off.svg'} alt="Like" onClick={onLikeClick}/>
+            <img src={isLiked ? '/img/like-btn-on.svg' : '/img/like-btn-off.svg'} alt="Like" onClick={onLike}/>
           </div>
           <img width={133} height={112} src={url} alt="Sneakers"/>
           <h5>{title}</h5>

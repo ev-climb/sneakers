@@ -1,8 +1,10 @@
 import React from "react";
+import { Route, Routes } from "react-router-dom";
 import axios from "axios";
-import Card from "./components/Card";
+import Home from "./pages/Home";
 import Header from "./components/Header";
 import Drawer from "./components/Drawer";
+import Favorites from "./pages/Favorites";
 
 
 
@@ -11,7 +13,7 @@ function App() {
   const [sneakers, setSneakers] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
-  const [favorites, setFavorites] = React.useState('');
+  const [favorites, setFavorites] = React.useState([]);
 
   React.useEffect(()=>{
     axios.get('https://63cf94521098240437820504.mockapi.io/items').then((res)=>{
@@ -19,6 +21,9 @@ function App() {
     });
     axios.get('https://63cf94521098240437820504.mockapi.io/cart').then((res)=>{
       setCartItems(res.data)
+    });
+    axios.get('https://63cf94521098240437820504.mockapi.io/favorites').then((res)=>{
+      setFavorites(res.data)
     })
   }, []);
 
@@ -45,29 +50,22 @@ function App() {
     <div className="wrapper clear">
       {cartOpened && <Drawer items={cartItems} onClose={()=>setCartOpener(!cartOpened)} onRemove={onRemoveItem}/>}    
       <Header onClickCart={()=>setCartOpener(!cartOpened)}/>
-      <div className="content p-40">
-        <div className="d-flex align-center mb-40 justify-between">
-          <h1>{searchValue ? `Поиск по запросу "${searchValue}"` : 'Все кроссовки'}</h1>
-          <div className="search-block">
-            <img src="/img/search.svg" alt="Search"/>
-            <input placeholder="Поиск..." value={searchValue} onChange={onChangeSearchInput}/>
-          </div>
-        </div>
-        <div className="d-flex flex-wrap">
-        {sneakers.filter((item) => item.name.toLowerCase().includes(searchValue.toLowerCase())).map((item, index) => (
-          <Card 
-            key={index}
-            title = {item.name}
-            url = {item.imageUrl}
-            price = {item.price}
-            onClickPlus = {(obj) => onAddToCart(obj)}
-            onClickLike = {(obj) => onAddToFavorites(obj)}
-            onRemoveItem = {(id) => onRemoveItem(id)}
-            id = {index}
-            />
-        ))}
-        </div>
-      </div>
+      <Routes>
+        <Route path="/" element={
+          <Home 
+          searchValue={searchValue}
+          onChangeSearchInput={onChangeSearchInput}
+          sneakers={sneakers}
+          onAddToCart={onAddToCart}
+          onAddToFavorites={onAddToFavorites}
+          onRemoveItem={onRemoveItem}
+          />
+        }/>   
+        <Route path="/favorites" element={
+          <Favorites items={favorites}/>
+        }/>                 
+      </Routes>
+      
     </div>
   );
 }
