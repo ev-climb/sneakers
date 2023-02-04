@@ -142,6 +142,10 @@ header {
   &:active {
     background-color: darken(#9dd558, 5%)
   }
+
+  &:disabled {
+    background-color: #bebebe;
+  }
 }
 .greenButtonBack {
   width: 245px;
@@ -192,4 +196,7 @@ header {
 
 .cartEmpty {
   text-align: center;
+  h2 {
+    color: #87C20A;
+  }
 }

@@ -1,40 +1,76 @@
 import React from 'react'
+import { AppContext } from '../../App';
+import ContentLoader from "react-content-loader"
 import styles from './Card.module.scss'
 
-function Card({title, url, price, onClickLike, onClickPlus, id}) {
-  const [checked, setChecked] = React.useState(false);
-  const [isLiked, setIsLiked] = React.useState(false);
+function Card({
+    id,
+    name, 
+    price, 
+    loading,
+    imageUrl, 
+    onClickLike, 
+    onClickPlus, 
+    }) {
+ 
+    const { cartItems, favorites } = React.useContext(AppContext);
 
-  const onPlus = () => {
-    {!checked && onClickPlus({title, url, price, id})};
-    setChecked(!checked)
-  }
+    const onPlus = () => {
+      onClickPlus({id, name, imageUrl, price});
+    }
 
-  const onLike = () => {
-    setIsLiked(!isLiked);
-    onClickLike({title, url, price, id})
-  }
+    const onLike = () => {
+      onClickLike({name, imageUrl, price, id})
+    }
 
-    return (
-        <div className={styles.card}>
+    return (      
+      <div className={styles.card}>
+        {
+          loading ? 
+            <ContentLoader 
+              speed={2}
+              width={150}
+              height={200}
+              viewBox="0 0 150 200"
+              backgroundColor="#f3f3f3"
+              foregroundColor="#ecebeb"
+            >
+              <rect x="0" y="0" rx="10" ry="10" width="150" height="90" /> 
+              <rect x="1" y="105" rx="5" ry="5" width="150" height="15" /> 
+              <rect x="0" y="130" rx="5" ry="5" width="100" height="15" /> 
+              <rect x="0" y="176" rx="5" ry="5" width="80" height="25" /> 
+              <rect x="117" y="169" rx="10" ry="10" width="32" height="32" />
+            </ContentLoader>
+        :
+        <>
           <div className="favorite">
-            <img src={isLiked ? '/img/like-btn-on.svg' : '/img/like-btn-off.svg'} alt="Like" onClick={onLike}/>
+            <img 
+              src={ favorites.length >0 ?
+                ((favorites.some((obj) => obj.imageUrl === imageUrl)) ? "/img/like-btn-on.svg" : "/img/like-btn-off.svg") : "/img/like-btn-off.svg"          
+              } 
+              alt="Like" 
+              onClick={onLike}
+             />
           </div>
-          <img width={133} height={112} src={url} alt="Sneakers"/>
-          <h5>{title}</h5>
+          <img width={133} height={112} src={imageUrl} alt="Sneakers"/>
+          <h5>{name}</h5>
           <div className="d-flex justify-between align-center">
             <div className="d-flex flex-column">
               <span>Цена:</span>
               <b>{price} руб.</b>
             </div>            
             <img 
-              className={styles.plus} 
-              src={checked ? "/img/sn-on.svg" : "/img/sn-off.svg"} 
-              alt="кнопка добавить" 
               onClick={onPlus}
+              alt="кнопка добавить" 
+              className={styles.plus}            
+              src={ cartItems.length >0 ?
+                 ((cartItems.some((obj) => obj.imageUrl === imageUrl)) ? "/img/sn-on.svg" : "/img/sn-off.svg") : "/img/sn-off.svg"                 
+                } 
             />            
           </div>
-        </div>
+        </>
+        }
+      </div>
     )
 }
 
