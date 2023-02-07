@@ -18,6 +18,7 @@ function Card({
     const { cartItems, favorites } = React.useContext(AppContext);
     const [isFavorite, setIsFavorite] = React.useState(favorited);
     const obj = { id, name, imageUrl, price, itemId: id }
+    const findItem = favorites.find((favObj)=> favObj.imageUrl === obj.imageUrl);
 
     const onPlus = () => {
       onClickPlus(obj);
@@ -51,7 +52,7 @@ function Card({
             <div className="favorite">
               <img 
                 src={
-                  (isFavorite ? "img/like-btn-on.svg" : "img/like-btn-off.svg")}
+                  (findItem ? "img/like-btn-on.svg" : "img/like-btn-off.svg")}
                 alt="Like" 
                 onClick={onLike}
               />
