@@ -11,9 +11,8 @@ function Home({
     }) 
     {
         const renderItems = () => {
-            const filterItems = sneakers.filter((item)=> 
-            item.title.toLowerCase().includes(searchValue.toLowerCase()));
-            return (!isLoaded ? [...Array(8)] : filterItems).map((item, index) => (
+            return (!isLoaded ? sneakers.filter((item) => item.name.toLowerCase().includes(searchValue.toLowerCase())) : [...Array(8)])
+            .map((item, index) => (
                 <Card 
                     {...item}
                     key={index}

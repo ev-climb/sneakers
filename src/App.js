@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
 
 import axios from "axios";
 
@@ -70,10 +71,9 @@ function App() {
     try {
       const findItem = favorites.find((favObj)=> favObj.imageUrl === obj.imageUrl);
       if (findItem) {     
-        axios.delete(`${api}favorites/${findItem.id}`); 
-        setFavorites((prev) => prev.filter((item) => Number(item.itemId) !== Number(obj.id)));
+        setFavorites((prev) => prev.filter((item) => Number(item.itemId) === Number(obj.id)));
+        await axios.delete(`${api}favorites/${findItem.id}`); 
       } else {
-          setFavorites((prev)=>[...prev, obj]);
           const {data} = await axios.post(`${api}favorites`, obj);
           setFavorites((prev) => [...prev, data]);
       }
