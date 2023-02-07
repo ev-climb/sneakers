@@ -1,16 +1,20 @@
 import React from "react";
 import axios from "axios";
 
-import Info from "./Info";
-import { AppContext } from "../App";
+import Info from "../Info";
+import { AppContext } from "../../App";
+
+import styles from './Drawer.module.scss'
 
 const delay = (ms) => new Promise((res)=> setTimeout(res, ms))
 
-function Drawer({onClose, onRemove, items = []}) {
+function Drawer({onClose, onRemove, opened, items = []}) {
     const {cartItems, setCartItems, api} = React.useContext(AppContext)
     const [orderId, setOrderId] = React.useState(null)
     const [isOrderComplete, setIsOrderComplete] = React.useState(false)
     const [isLoading, setIsLoading] = React.useState(false)
+    const totalPrice = cartItems.reduce((sum, obj)=> obj.price + sum, 0)
+
 
     const onClickOrder = async () => {
         try {
@@ -34,8 +38,8 @@ function Drawer({onClose, onRemove, items = []}) {
     }
 
     return (
-        <div className="overlay">
-            <div className="drawer">
+        <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
+            <div className={styles.drawer}>
                 <h2 className="mb-30 d-flex justify-between">Корзина
                     <img 
                         className="removeBtn" 
@@ -63,7 +67,7 @@ function Drawer({onClose, onRemove, items = []}) {
                                         className="removeBtn" 
                                         src="/img/btn-remove.svg" 
                                         alt="Remove" 
-                                        onClick={()=> onRemove(obj)}
+                                        onClick={()=> onRemove(obj.id)}
                                     />
                                 </div>                                        
                             ))}
@@ -73,12 +77,12 @@ function Drawer({onClose, onRemove, items = []}) {
                                 <li className="d-flex mb-20">
                                     <span>Итого:</span>
                                     <div></div>
-                                    <b>21 498 руб.</b>
+                                    <b>{totalPrice} руб.</b>
                                 </li>
                                 <li className="d-flex">
                                     <span>Налог 5%:</span>
                                     <div></div>
-                                    <b>1074 руб.</b>
+                                    <b>{totalPrice*0.05} руб.</b>
                                 </li>
                             </ul>
                             <button 

@@ -7,26 +7,30 @@ function Card({
     id,
     name, 
     price, 
-    loading,
+    itemId,
     imageUrl, 
     onClickLike, 
     onClickPlus, 
+    loading = false,
+    favorited = false,
     }) {
  
     const { cartItems, favorites } = React.useContext(AppContext);
+    const [isFavorite, setIsFavorite] = React.useState(favorited);
+    const obj = { id, name, imageUrl, price, itemId: id }
 
     const onPlus = () => {
-      onClickPlus({id, name, imageUrl, price});
+      onClickPlus(obj);
     }
 
     const onLike = () => {
-      onClickLike({name, imageUrl, price, id})
+      onClickLike(obj);
+      setIsFavorite(!isFavorite)
     }
 
     return (      
       <div className={styles.card}>
-        {
-          loading ? 
+        { loading ? 
             <ContentLoader 
               speed={2}
               width={150}
@@ -43,30 +47,34 @@ function Card({
             </ContentLoader>
         :
         <>
-          <div className="favorite">
-            <img 
-              src={ favorites.length >0 ?
-                ((favorites.some((obj) => obj.imageUrl === imageUrl)) ? "/img/like-btn-on.svg" : "/img/like-btn-off.svg") : "/img/like-btn-off.svg"          
-              } 
-              alt="Like" 
-              onClick={onLike}
-             />
-          </div>
+          {onClickLike && (
+            <div className="favorite">
+              <img 
+                src={
+                  (isFavorite ? "/img/like-btn-on.svg" : "/img/like-btn-off.svg")}
+                alt="Like" 
+                onClick={onLike}
+              />
+            </div>
+          )}
           <img width={133} height={112} src={imageUrl} alt="Sneakers"/>
           <h5>{name}</h5>
           <div className="d-flex justify-between align-center">
             <div className="d-flex flex-column">
               <span>Цена:</span>
               <b>{price} руб.</b>
-            </div>            
-            <img 
-              onClick={onPlus}
-              alt="кнопка добавить" 
-              className={styles.plus}            
-              src={ cartItems.length >0 ?
-                 ((cartItems.some((obj) => obj.imageUrl === imageUrl)) ? "/img/sn-on.svg" : "/img/sn-off.svg") : "/img/sn-off.svg"                 
-                } 
-            />            
+            </div>         
+
+            {(onClickPlus && 
+              <img 
+                onClick={onPlus}
+                alt="кнопка добавить" 
+                className={styles.plus}            
+                src={ cartItems.length >0 ?
+                  ((cartItems.some((obj) => obj.imageUrl === imageUrl)) ? "/img/sn-on.svg" : "/img/sn-off.svg") : "/img/sn-off.svg"                 
+                  } 
+              />    
+            )}        
           </div>
         </>
         }

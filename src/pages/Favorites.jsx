@@ -2,9 +2,9 @@ import React from "react";
 import { AppContext } from "../App";
 import Card from "../components/Card";
 
-function Favorites({onAddToFavorites}) {
+function Favorites() {
 
-    const {favorites} = React.useContext(AppContext)
+    const {favorites, onAddToFavorites} = React.useContext(AppContext)
     
     return (
         <div className="content p-40">
