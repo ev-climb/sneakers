@@ -51,7 +51,7 @@ function Card({
             <div className="favorite">
               <img 
                 src={
-                  (isFavorite ? "/img/like-btn-on.svg" : "/img/like-btn-off.svg")}
+                  (isFavorite ? "img/like-btn-on.svg" : "img/like-btn-off.svg")}
                 alt="Like" 
                 onClick={onLike}
               />
@@ -71,7 +71,7 @@ function Card({
                 alt="кнопка добавить" 
                 className={styles.plus}            
                 src={ cartItems.length >0 ?
-                  ((cartItems.some((obj) => obj.imageUrl === imageUrl)) ? "/img/sn-on.svg" : "/img/sn-off.svg") : "/img/sn-off.svg"                 
+                  ((cartItems.some((obj) => obj.imageUrl === imageUrl)) ? "img/sn-on.svg" : "img/sn-off.svg") : "img/sn-off.svg"                 
                   } 
               />    
             )}        
