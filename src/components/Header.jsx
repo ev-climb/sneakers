@@ -5,7 +5,7 @@ import { AppContext } from "../App";
 function Header(props) {
   const { cartItems } = React.useContext(AppContext)
   const totalPrice = cartItems.reduce((sum, obj)=> obj.price + sum, 0)
-console.log(totalPrice);
+
   return (
     <header className="d-flex justify-between align-center p-40">
       <Link to="/">

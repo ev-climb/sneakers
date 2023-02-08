@@ -7,16 +7,14 @@ function Card({
     id,
     name, 
     price, 
-    itemId,
     imageUrl, 
     onClickLike, 
     onClickPlus, 
     loading = false,
-    favorited = false,
     }) {
  
     const { cartItems, favorites } = React.useContext(AppContext);
-    const [isFavorite, setIsFavorite] = React.useState(favorited);    const obj = { id, name, imageUrl, price, itemId: id }
+    const obj = { id, name, imageUrl, price, itemId: id };
     const findItem = favorites.find((favObj)=> favObj.imageUrl === obj.imageUrl);
 
     const onPlus = () => {

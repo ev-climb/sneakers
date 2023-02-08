@@ -6,7 +6,7 @@ import { AppContext } from "../App";
 function Orders() {
     const [orders, setOrders] = React.useState([]);
     const [isLoaded, setIsLoaded] = React.useState(true);
-    const {api, onAddToCart, onAddToFavorites} = React.useContext(AppContext)
+    const {api} = React.useContext(AppContext)
 
     React.useEffect(()=>{
         (async () => {

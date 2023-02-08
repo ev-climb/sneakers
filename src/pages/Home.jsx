@@ -9,8 +9,7 @@ function Home({
     onAddToFavorites,
     onChangeSearchInput,
     }) 
-    {
-        const renderItems = () => {
+    {   const renderItems = () => {
             return (!isLoaded ? sneakers.filter((item) => item.name.toLowerCase().includes(searchValue.toLowerCase())) : [...Array(8)])
             .map((item, index) => (
                 <Card 
