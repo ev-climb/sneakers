@@ -11,7 +11,7 @@ https://ev-climb.github.io/sneakers/
 - отправка заказа на сервер
 - поиск по товарам
 
-![Image alt](https://github.com/{username}/{repository}/raw/{branch}/{path}/image.png)
+![Screen](https://github.com/ev-climb/sneakers/blob/master/sneakers.png)
 
 ## Stack:
 - ReactJS + хуки
