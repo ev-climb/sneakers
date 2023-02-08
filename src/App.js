@@ -71,7 +71,7 @@ function App() {
     try {
       const findItem = favorites.find((favObj)=> favObj.imageUrl === obj.imageUrl);
       if (findItem) {     
-        setFavorites((prev) => prev.filter((item) => Number(item.itemId) === Number(obj.id)));
+        setFavorites((prev) => prev.filter((item) => item.imageUrl !== obj.imageUrl));
         await axios.delete(`${api}favorites/${findItem.id}`); 
       } else {
           const {data} = await axios.post(`${api}favorites`, obj);

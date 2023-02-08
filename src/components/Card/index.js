@@ -26,7 +26,7 @@ function Card({
 
     const onLike = () => {
       onClickLike(obj);
-      setIsFavorite(!isFavorite)
+      setIsFavorite(findItem)
     }
 
     return (      
@@ -52,7 +52,7 @@ function Card({
             <div className="favorite">
               <img 
                 src={
-                  (findItem ? "img/like-btn-on.svg" : "img/like-btn-off.svg")}
+                  (isFavorite ? "img/like-btn-on.svg" : "img/like-btn-off.svg")}
                 alt="Like" 
                 onClick={onLike}
               />
