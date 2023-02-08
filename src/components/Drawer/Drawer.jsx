@@ -82,7 +82,7 @@ function Drawer({onClose, onRemove, opened, items = []}) {
                                 <li className="d-flex">
                                     <span>Налог 5%:</span>
                                     <div></div>
-                                    <b>{totalPrice*0.05} руб.</b>
+                                    <b>{(totalPrice*0.05).toFixed(2)} руб.</b>
                                 </li>
                             </ul>
                             <button 
